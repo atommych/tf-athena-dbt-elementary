@@ -10,8 +10,6 @@ export SNOWFLAKE_USER=ATOMMYCH
 export SNOWFLAKE_REGION="us-west-2"
 export SNOWFLAKE_PASSWORD=
 
+#Application environment variables
 export ENVIRONMENT=
-export DOMAIN=
 export PREFIX=atommych
-export SOURCE=
-export BUILD_HOME=..

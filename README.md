@@ -1,6 +1,10 @@
 # snowflake-tf-dbt
 Demo Code showing Snowflake and AWS Integration with Terraform and dbt
 
+Architecture based on: https://www.getdbt.com/blog/how-we-configure-snowflake/
+![Architecture](https://cdn-images-1.medium.com/max/2400/1*FPxDaqugiCChkv5QxsoN7w.png)
+ 
+
 ###  Requirements
 Terraform Account and Cli:
 https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
@@ -30,3 +34,14 @@ https://docs.snowflake.com/pt/user-guide/snowsql-install-config
     
     #Edit file with your credentials
     source setenv.sh
+
+### Run code
+    
+    #Provide Infrastructure: AWS S3 
+    ENVIRONMENT=dev make build-datalake
+
+    #Provide Infrastructure: Snowflake Warehouses, Database and Schemas 
+    ENVIRONMENT=dev make build-snowflake-db
+    
+    #Destroy Infrastructure: AWS S3, Snowflake Warehouses, Database and Schemas
+    ENVIRONMENT=dev make destroy-all
