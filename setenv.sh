@@ -7,7 +7,7 @@ export AWS_ACCOUNT_ID=
 #Snowflake environment variables
 export SNOWFLAKE_ACCOUNT=
 export SNOWFLAKE_USER=ATOMMYCH
-export SNOWFLAKE_REGION="us-west-2"
+export SNOWFLAKE_REGION="eu-west-3"
 export SNOWFLAKE_PASSWORD=
 
 #Application environment variables

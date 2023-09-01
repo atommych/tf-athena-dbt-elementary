@@ -6,7 +6,16 @@ terraform {
     }
     snowflake = {
       source  = "Snowflake-Labs/snowflake"
-      version = "~> 0.57.0"
+      version = "~> 0.68"
     }
   }
+}
+
+provider "snowflake" {
+  role = "SYSADMIN"
+}
+
+provider "snowflake" {
+  alias = "security_admin"
+  role  = "SECURITYADMIN"
 }
