@@ -63,9 +63,9 @@ Snowflake Account and Cli:
 - **Warehouses**: LANDING_ZONE, TRANSFORMING_WH, REPORTING_WH
 - **Databases**: DEV_RAW_SGA_DB, DEV_GOLD_SGA_DB
 - **Schemas**: LANDING_ZONE, ANALYTICS
-- **Tables**: SUBSCRIPTION
-- **Stages**: SUBSCRIPTION_STAGE
-- **Pipes**: PIPE_SUBSCRIPTION
+  - **Tables**: SUBSCRIPTION
+  - **Stages**: SUBSCRIPTION_STAGE
+  - **Pipes**: PIPE_SUBSCRIPTION
  
 ### Destroy Infrastructure
     #Destroy Infrastructure: AWS S3, Snowflake Warehouses, Database, Schemas, Users, Roles and Grants
