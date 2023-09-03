@@ -35,7 +35,7 @@ Snowflake Account and Cli:
 ### Config a new environment
     #Create new python env 
     python3 -m venv snowflake 
-    source snowflake/bin/activate        
+    source snowflake/bin/activate
 
     #Install python dependencies
     pip install -r requirements.txt
@@ -56,14 +56,17 @@ Snowflake Account and Cli:
 
 
 ### Generated Infrastructure
+- **AWS S3 Bucket**: ___prefix___-datalake-___env___
 - **Connection**: ___account.region___.snowflakecomputing.com
+- **Users**: admin, LOADER_USER, TRANSFORMER_USER, REPORTER_USER
+- **Roles**: PUBLIC, LOADER_ROLE, TRANSFORMER_ROLE, REPORTER_ROLE
+- **Warehouses**: LANDING_ZONE, TRANSFORMING_WH, REPORTING_WH
 - **Databases**: DEV_RAW_SGA_DB, DEV_GOLD_SGA_DB
 - **Schemas**: LANDING_ZONE, ANALYTICS
-- **Warehouses**: LANDING_ZONE, TRANSFORMING_WH, REPORTING_WH
-- **Roles**: PUBLIC, LOADER_ROLE, TRANSFORMER_ROLE, REPORTER_ROLE
-- **Users**: admin, LOADER_USER, TRANSFORMER_USER, REPORTER_USER
-- **AWS S3 Bucket**: ___prefix___-datalake-___env___
-
+- **Tables**: SUBSCRIPTION
+- **Stages**: SUBSCRIPTION_STAGE
+- **Pipes**: PIPE_SUBSCRIPTION
+ 
 ### Destroy Infrastructure
     #Destroy Infrastructure: AWS S3, Snowflake Warehouses, Database, Schemas, Users, Roles and Grants
     ENVIRONMENT=dev make destroy-all
