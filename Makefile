@@ -2,9 +2,10 @@
 
 build-datalake: init-datalake apply-datalake
 build-snowflake-db: init-snowflake-db apply-snowflake-db
+build-snowflake-pipe: init-snowflake-pipe apply-snowflake-pipe
 
-build-all: build-datalake build-snowflake-db
-destroy-all: destroy-snowflake-db destroy-datalake
+build-all: build-datalake build-snowflake-db build-snowflake-pipe
+destroy-all: destroy-snowflake-pipe destroy-snowflake-db destroy-datalake
 
 # -------------------------------------------------------------------------------------------------
 # The Data Lake is the base layer S3 bucket and we create as a separate layer that has no
@@ -49,6 +50,28 @@ apply-snowflake-db:
 
 destroy-snowflake-db:
 	terraform -chdir=src/terraform/layers/snowflake-db destroy -var-file="../../../../environments/${ENVIRONMENT}.tfvars" -auto-approve
+
+# -------------------------------------------------------------------------------------------------
+# The Snowflake Pipe Layer creates that basic integration including the STORAGE_INTEGRATION object
+# and the PIPE integration, as well as all the AWS IAM roles and policies to ensure security with
+# our automated pipeline automation.
+#
+apply-snowflake-pipe:
+	terraform -chdir=src/terraform/layers/snowflake-pipe apply -var="aws_account_id=${AWS_ACCOUNT_ID}" \
+		-var-file="../../../../environments/${ENVIRONMENT}.tfvars" -auto-approve
+
+destroy-snowflake-pipe:
+	terraform -chdir=src/terraform/layers/snowflake-pipe destroy -var="aws_account_id=${AWS_ACCOUNT_ID}" \
+		-var-file="../../../../environments/${ENVIRONMENT}.tfvars" -auto-approve
+
+plan-snowflake-pipe:
+	terraform -chdir=src/terraform/layers/snowflake-pipe plan -var-file="../../../../environments/dev.tfvars"
+
+init-snowflake-pipe:
+	terraform -chdir=src/terraform/layers/snowflake-pipe init -upgrade
+
+sync-test-data:
+	aws s3 sync data s3://${PREFIX}-datalake-${BUILD_ENV}/stage/${SOURCE}/inputs/ --exclude="*" --include="*.csv"
 
 # -------------------------------------------------------------------------------------------------
 # This is the brew method of installing Terraform for this example

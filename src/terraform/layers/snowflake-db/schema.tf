@@ -1,6 +1,6 @@
 resource "snowflake_schema" "landing_zone" {
   database = snowflake_database.sf_raw_db.name
-  name     = "LANDING_ZONE"
+  name     = "${var.landing_zone_schema}"
   comment  = "The Landing zone schema for new data"
 
   is_transient        = false
@@ -9,7 +9,7 @@ resource "snowflake_schema" "landing_zone" {
 
 resource "snowflake_schema" "analytics" {
   database = snowflake_database.sf_gold_db.name
-  name     = "ANALYTICS"
+  name     = "${var.analytics_schema}"
   comment  = "The Landing zone schema for new data"
 
   is_transient        = false

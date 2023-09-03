@@ -19,3 +19,15 @@ variable "snowflake_database" {
   type        = string
   default     = null
 }
+
+variable "landing_zone_schema" {
+  description = "The database schema for the landing zone data"
+  type        = string
+  default     = null
+}
+
+variable "analytics_schema" {
+  description = "The database schema for the analytics data"
+  type        = string
+  default     = null
+}

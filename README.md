@@ -50,8 +50,12 @@ Snowflake Account and Cli:
     #Provide Infrastructure: Snowflake Warehouses, Database, Schemas, Users, Roles and Grants
     ENVIRONMENT=dev make build-snowflake-db
     
-### Generated Infrastructure
+    #Create snowflake_stage, snowflake_pipe, snowflake_table
+    #Create aws_iam_role, aws_iam_role_policy, aws_s3_bucket_notification, aws_sns_topic, aws_sns_topic_policy, snowflake_storage_integration, snowflake_notification_integration
+    ENVIRONMENT=dev make build-snowflake-pipe
 
+
+### Generated Infrastructure
 - **Connection**: ___account.region___.snowflakecomputing.com
 - **Databases**: DEV_RAW_SGA_DB, DEV_GOLD_SGA_DB
 - **Schemas**: LANDING_ZONE, ANALYTICS

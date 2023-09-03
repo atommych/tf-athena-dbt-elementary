@@ -11,5 +11,5 @@ export SNOWFLAKE_REGION="eu-west-3"
 export SNOWFLAKE_PASSWORD=
 
 #Application environment variables
-export ENVIRONMENT=
+export ENVIRONMENT="dev"
 export PREFIX=atommych
