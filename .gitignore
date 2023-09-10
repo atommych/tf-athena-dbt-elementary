@@ -3,3 +3,8 @@ terraform.tfstate
 .terraform.tfstate.lock.info
 .terraform.lock.hcl
 .terraform/
+# Default .gitignore content added by dbt Cloud
+target/
+dbt_packages/
+logs/
+# end dbt Cloud content
