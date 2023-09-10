@@ -4,7 +4,7 @@ module "snowflake_datalake_subscription" {
   stage_folder = "${var.stage_folder}/${var.data_source}/inputs"
   stage_name = "SUBSCRIPTION_STAGE"
   table_name = "SUBSCRIPTION"
-  snowflake_database = upper("${var.environment}_RAW_SGA_DB")
+  snowflake_database = upper("${var.environment}_RAW_DB")
   landing_zone_schema = var.landing_zone_schema
   environment = var.environment
   storage_integration = snowflake_storage_integration.datalake_integration.name
