@@ -53,8 +53,11 @@ Snowflake Account and Cli:
     #Create snowflake_stage, snowflake_pipe, snowflake_table
     #Create aws_iam_role, aws_iam_role_policy, aws_s3_bucket_notification, aws_sns_topic, aws_sns_topic_policy, snowflake_storage_integration, snowflake_notification_integration
     ENVIRONMENT=dev make build-snowflake-pipe
+    
+    #Initialize dbt profile, upload samples to s3, run dbt workflows and generate documentation
+    ENVIRONMENT=dev make run-all
 
-
+  
 ### Generated Infrastructure
 - **AWS S3 Bucket**: ___prefix___-datalake-___env___
 - **Connection**: ___account.region___.snowflakecomputing.com

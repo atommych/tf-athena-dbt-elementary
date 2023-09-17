@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: subscription
+    description: "The Subscription Model Load in dbt"
+    database: "DEV_RAW_DB"
+    schema: "LANDING_ZONE"
+    tables:
+      - name: SUBSCRIPTION
+        description: "The SUBSCRIPTION data"

@@ -7,6 +7,8 @@ build-snowflake-pipe: init-snowflake-pipe apply-snowflake-pipe
 build-all: build-datalake build-snowflake-db build-snowflake-pipe
 destroy-all: destroy-snowflake-pipe destroy-snowflake-db destroy-datalake
 
+dbt-run-all: dbt-init plant-seeds dbt-run dbt-docs
+
 # -------------------------------------------------------------------------------------------------
 # The Data Lake is the base layer S3 bucket and we create as a separate layer that has no
 # explicit dependencies.  We manage the dependency with a consistent naming convention.
@@ -81,3 +83,37 @@ install-terraform:
 
 install-dbt:
 	pip install -r requirements.txt
+
+#Initialize dbt environment, required variables:
+#   account: $SNOWFLAKE_ACCOUNT
+#   password: $SNOWFLAKE_PASSWORD
+#   user: $SNOWFLAKE_USER
+#   role: ACCOUNTADMIN
+#   type: snowflake
+#   warehouse: TRANSFORMING_WH
+#   database: DEV_GOLD_DB
+#   schema: analytics
+#   threads: 1
+dbt-init-new:
+	cd src/dbt/ && dbt init etl_dw
+
+dbt-init:
+	cd src/dbt/ && dbt init --skip-profile-setup etl_dw
+
+# -------------------------------------------------------------------------------------------------
+# Run data pipeline
+#
+
+#Upload data to S3
+plant-seeds:
+	aws s3 sync src/dbt/etl_dw/seeds s3://${PREFIX}-datalake-${ENVIRONMENT}/stage/subscription/inputs/ --exclude="*" --include="*.csv"
+
+dbt-run:
+	cd src/dbt/etl_dw/ && dbt run
+
+dbt-docs:
+	cd src/dbt/etl_dw/ && dbt docs generate
+
+
+
+
