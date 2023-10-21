@@ -1,15 +1,5 @@
 # snowflake-tf-dbt
-Demo Code showing Snowflake and AWS Integration with Terraform and dbt.
-
-Terraform guide for snowflake:
-https://quickstarts.snowflake.com/guide/terraforming_snowflake/index.html
-
-Privileges to customize roles:
-https://docs.snowflake.com/en/user-guide/security-access-control-privileges
-
-Architecture based on: 
-https://www.getdbt.com/blog/how-we-configure-snowflake/
-![Architecture](https://cdn-images-1.medium.com/max/2400/1*FPxDaqugiCChkv5QxsoN7w.png)
+Demo Code showing Terraform, AWS Athena, dbt and elementary.
 
 ###  Requirements
 Terraform Account and Cli:
@@ -19,10 +9,6 @@ Terraform Account and Cli:
 AWS Account and Cli:
 - https://portal.aws.amazon.com/billing/signup
 - https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
-
-Snowflake Account and Cli:
-- https://signup.snowflake.com/
-- https://docs.snowflake.com/pt/user-guide/snowsql-install-config
 
 ### Setup cli credentials
     #Set AWS Access Key ID and AWS Secret Access Key        
@@ -45,31 +31,16 @@ Snowflake Account and Cli:
 
 ### Build / Run
     #Provide Infrastructure: AWS S3 
-    ENVIRONMENT=dev make build-datalake
+    make build-datalake
 
-    #Provide Infrastructure: Snowflake Warehouses, Database, Schemas, Users, Roles and Grants
-    ENVIRONMENT=dev make build-snowflake-db
-    
-    #Create snowflake_stage, snowflake_pipe, snowflake_table
-    #Create aws_iam_role, aws_iam_role_policy, aws_s3_bucket_notification, aws_sns_topic, aws_sns_topic_policy, snowflake_storage_integration, snowflake_notification_integration
-    ENVIRONMENT=dev make build-snowflake-pipe
-    
     #Initialize dbt profile, upload samples to s3, run dbt workflows and generate documentation
-    ENVIRONMENT=dev make run-all
+    make run-all
 
   
 ### Generated Infrastructure
 - **AWS S3 Bucket**: ___prefix___-datalake-___env___
-- **Connection**: ___account.region___.snowflakecomputing.com
-- **Users**: admin, LOADER_USER, TRANSFORMER_USER, REPORTER_USER
-- **Roles**: PUBLIC, LOADER_ROLE, TRANSFORMER_ROLE, REPORTER_ROLE
-- **Warehouses**: LANDING_ZONE, TRANSFORMING_WH, REPORTING_WH
-- **Databases**: DEV_RAW_DB, DEV_GOLD_DB
-- **Schemas**: LANDING_ZONE, ANALYTICS
-  - **Tables**: SUBSCRIPTION
-  - **Stages**: SUBSCRIPTION_STAGE
-  - **Pipes**: PIPE_SUBSCRIPTION
+
  
 ### Destroy Infrastructure
-    #Destroy Infrastructure: AWS S3, Snowflake Warehouses, Database, Schemas, Users, Roles and Grants
-    ENVIRONMENT=dev make destroy-all
+    #Destroy Infrastructure: AWS S3, AWS Athena, dbt + elementary
+    make destroy-all

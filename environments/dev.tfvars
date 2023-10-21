@@ -2,7 +2,7 @@
 environment         = "dev"
 prefix              = "atommych"
 region              = "eu-west-3"
-domain              = "tamedia"
+domain              = "tx"
 data_source         = "subscription"
 stage_folder        = "stage"
 landing_zone_schema = "LANDING_ZONE"

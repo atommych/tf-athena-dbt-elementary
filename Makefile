@@ -1,11 +1,9 @@
 # Each environment needs to have a specific location because Terraform will store state
 
 build-datalake: init-datalake apply-datalake
-build-snowflake-db: init-snowflake-db apply-snowflake-db
-build-snowflake-pipe: init-snowflake-pipe apply-snowflake-pipe
 
-build-all: build-datalake build-snowflake-db build-snowflake-pipe
-destroy-all: destroy-snowflake-pipe destroy-snowflake-db destroy-datalake
+build-all: build-datalake
+destroy-all: destroy-datalake
 
 dbt-run-all: dbt-init plant-seeds dbt-run dbt-docs
 
@@ -34,48 +32,6 @@ destroy-datalake: clean-s3-bucket
  	-var-file="../../../../environments/${ENVIRONMENT}.tfvars" -auto-approve
 
 # -------------------------------------------------------------------------------------------------
-# The Snowflake database is the base level database and is again created as a layer to avoid
-# dependencies.  We also create the base schema skeleton in this layer.
-#
-# We manage the database with a naming convention:
-#
-#	upper("${var.environment}_CATALOG")
-#
-init-snowflake-db:
-	terraform -chdir=src/terraform/layers/snowflake-db init
-
-plan-snowflake-db:
-	terraform -chdir=src/terraform/layers/snowflake-db plan -var-file="../../../../environments/${ENVIRONMENT}.tfvars"
-
-apply-snowflake-db:
-	terraform -chdir=src/terraform/layers/snowflake-db apply -var-file="../../../../environments/${ENVIRONMENT}.tfvars" -auto-approve
-
-destroy-snowflake-db:
-	terraform -chdir=src/terraform/layers/snowflake-db destroy -var-file="../../../../environments/${ENVIRONMENT}.tfvars" -auto-approve
-
-# -------------------------------------------------------------------------------------------------
-# The Snowflake Pipe Layer creates that basic integration including the STORAGE_INTEGRATION object
-# and the PIPE integration, as well as all the AWS IAM roles and policies to ensure security with
-# our automated pipeline automation.
-#
-apply-snowflake-pipe:
-	terraform -chdir=src/terraform/layers/snowflake-pipe apply -var="aws_account_id=${AWS_ACCOUNT_ID}" \
-		-var-file="../../../../environments/${ENVIRONMENT}.tfvars" -auto-approve
-
-destroy-snowflake-pipe:
-	terraform -chdir=src/terraform/layers/snowflake-pipe destroy -var="aws_account_id=${AWS_ACCOUNT_ID}" \
-		-var-file="../../../../environments/${ENVIRONMENT}.tfvars" -auto-approve
-
-plan-snowflake-pipe:
-	terraform -chdir=src/terraform/layers/snowflake-pipe plan -var-file="../../../../environments/dev.tfvars"
-
-init-snowflake-pipe:
-	terraform -chdir=src/terraform/layers/snowflake-pipe init -upgrade
-
-sync-test-data:
-	aws s3 sync data s3://${PREFIX}-datalake-${BUILD_ENV}/stage/${SOURCE}/inputs/ --exclude="*" --include="*.csv"
-
-# -------------------------------------------------------------------------------------------------
 # This is the brew method of installing Terraform for this example
 #
 install-terraform:
@@ -84,16 +40,6 @@ install-terraform:
 install-dbt:
 	pip install -r requirements.txt
 
-#Initialize dbt environment, required variables:
-#   account: $SNOWFLAKE_ACCOUNT
-#   password: $SNOWFLAKE_PASSWORD
-#   user: $SNOWFLAKE_USER
-#   role: ACCOUNTADMIN
-#   type: snowflake
-#   warehouse: TRANSFORMING_WH
-#   database: DEV_GOLD_DB
-#   schema: analytics
-#   threads: 1
 dbt-init-new:
 	cd src/dbt/ && dbt init etl_dw
 
