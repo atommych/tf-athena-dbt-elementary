@@ -11,5 +11,5 @@ output "datalake_bucket_url" {
 
 output "datalake_bucket_id" {
   description = "The ID of the bucket"
-  value = aws_s3_bucket.datalake_s3_resource.id
+  value       = aws_s3_bucket.datalake_s3_resource.id
 }

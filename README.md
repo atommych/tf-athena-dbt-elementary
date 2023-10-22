@@ -26,11 +26,11 @@ AWS Account and Cli:
     #Install python dependencies
     pip install -r requirements.txt
     
-    #Edit file with your credentials
+    #Edit file with your credentials and environment variables
     source setenv.sh
 
 ### Build / Run
-    #Provide Infrastructure: AWS S3 
+    #Provide Infrastructure: AWS S3, AWS Athena, AWS Glue 
     make build-datalake
 
     #Initialize dbt profile, upload samples to s3, run dbt workflows and generate documentation
@@ -42,5 +42,5 @@ AWS Account and Cli:
 
  
 ### Destroy Infrastructure
-    #Destroy Infrastructure: AWS S3, AWS Athena, dbt + elementary
+    #Destroy Infrastructure: AWS S3, AWS Athena, AWS Glue
     make destroy-all

@@ -6,15 +6,25 @@ variable "region" {
 
 variable "prefix" {
   description = "A unique prefix for the project."
-  type = string
+  type        = string
 }
 
 variable "environment" {
   description = "The environment for the project"
-  type = string
+  type        = string
 }
 
 variable "aws_account_id" {
   description = "The AWS account ID"
-  type = string
+  type        = string
+}
+
+variable "aws" {
+  type = object({
+    region     = string
+    access_key = string
+    secret_key = string
+  })
+  sensitive = true
+  description = "AWS related information and credentials"
 }

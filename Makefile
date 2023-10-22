@@ -17,18 +17,18 @@ init-datalake:
 	terraform -chdir=src/terraform/layers/datalake init
 
 plan-datalake:
-	terraform -chdir=src/terraform/layers/datalake plan -var="aws_account_id=${AWS_ACCOUNT_ID}" \
+	terraform -chdir=src/terraform/layers/datalake plan \
  	-var-file="../../../../environments/${ENVIRONMENT}.tfvars"
 
 apply-datalake:
-	terraform -chdir=src/terraform/layers/datalake apply  -var="aws_account_id=${AWS_ACCOUNT_ID}" \
+	cd src/terraform/layers/datalake; terraform apply  \
  	-var-file="../../../../environments/${ENVIRONMENT}.tfvars" -auto-approve
 
 clean-s3-bucket:
 	aws s3 rm s3://${PREFIX}-datalake-${ENVIRONMENT} --recursive
 
 destroy-datalake: clean-s3-bucket
-	terraform -chdir=src/terraform/layers/datalake destroy  -var="aws_account_id=${AWS_ACCOUNT_ID}" \
+	cd src/terraform/layers/datalake; terraform destroy \
  	-var-file="../../../../environments/${ENVIRONMENT}.tfvars" -auto-approve
 
 # -------------------------------------------------------------------------------------------------

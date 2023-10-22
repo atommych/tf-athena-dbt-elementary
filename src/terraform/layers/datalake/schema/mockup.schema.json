@@ -1,0 +1,24 @@
+{
+  "$id": "https://example.com/mockup.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "mockup",
+  "type": "object",
+  "properties": {
+    "location": {
+      "description": "The location (e.g. store) of the mockup",
+      "type": "string"
+    },
+    "available": {
+      "description": "Number of available mockups in the specified location",
+      "type": "integer"
+    },
+    "updated_at": {
+      "description": "Timestamp where this information were created",
+      "type": "string"
+    },
+    "sku": {
+      "description": "Stock Keeping Unit",
+      "type": "string"
+    }
+  }
+}
