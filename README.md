@@ -20,14 +20,14 @@ AWS Account and Cli:
 
 ### Config a new environment
     #Create new python env 
-    python3 -m venv snowflake 
-    source snowflake/bin/activate
+    python3 -m venv dbt-athena 
+    source dbt-athena/bin/activate
 
     #Install python dependencies
     pip install -r requirements.txt
     
     #Edit file with your credentials and environment variables
-    source setenv.sh
+    vi setenv.sh
 
 ### Build / Run
     #Provide Infrastructure: AWS S3, AWS Athena, AWS Glue 

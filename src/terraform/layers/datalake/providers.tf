@@ -21,11 +21,11 @@ module "athena-stack" {
   domain = var.prefix
   name   = "mockup"
 
-  schedule = "0 0 1 * * *" # Run at 00:00 am (UTC) every month on 1st day
+  schedule = "0 5 1 * ? *" # Run at 5:00 am (UTC+0) every 1st day of the month
 
   input = [
     {
-      source = "${var.prefix}-datalake-${var.environment}"
+      source = aws_s3_bucket.datalake_s3_resource.arn
     }
   ]
 

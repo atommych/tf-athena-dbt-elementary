@@ -1,6 +1,6 @@
 # Each environment needs to have a specific location because Terraform will store state
 
-build-datalake: init-datalake apply-datalake
+build-datalake: setup-env init-datalake apply-datalake
 
 build-all: build-datalake
 destroy-all: destroy-datalake
@@ -36,6 +36,9 @@ destroy-datalake: clean-s3-bucket
 #
 install-terraform:
 	brew install hashicorp/tap/terraform
+
+setup-env:
+	$(source setenv.sh)
 
 install-dbt:
 	pip install -r requirements.txt
