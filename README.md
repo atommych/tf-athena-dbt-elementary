@@ -1,4 +1,4 @@
-# snowflake-tf-dbt
+# tf-athena-dbt-elementary
 Demo Code showing Terraform, AWS Athena, dbt and elementary.
 
 ###  Requirements
@@ -20,22 +20,37 @@ AWS Account and Cli:
 
 ### Config a new environment
     #Create new python env 
-    python3 -m venv dbt-athena 
-    source dbt-athena/bin/activate
-
-    #Install python dependencies
-    pip install -r requirements.txt
-    
+    python3 -m venv ../../../env/python/dbt-athena 
+    source ../../../env/python/dbt-athena/bin/activate
+ 
     #Edit file with your credentials and environment variables
     vi setenv.sh
+     
+    # Setup ~/.dbt/profiles.yml
+    #           project:
+    #             outputs:
+    #               dev:
+    #                 database: datalake_catalog
+    #                 region_name: eu-west-3
+    #                 s3_data_dir: s3://atommych-datalake-dev/data/
+    #                 s3_staging_dir: s3://atommych-datalake-dev/stg/
+    #                 schema: datalake_dev
+    #                 threads: 1
+    #                 type: athena
+    #             target: dev
+
+    #In case of dbt already config  
+    dbt-init
+    
+    #In case of new environment: 
+    make dbt-config
 
 ### Build / Run
     #Provide Infrastructure: AWS S3, AWS Athena, AWS Glue 
     make build-datalake
 
     #Initialize dbt profile, upload samples to s3, run dbt workflows and generate documentation
-    make run-all
-
+    make dbt-run-all
   
 ### Generated Infrastructure
 - **AWS S3 Bucket**: ___prefix___-datalake-___env___

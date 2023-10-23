@@ -5,7 +5,7 @@ build-datalake: setup-env init-datalake apply-datalake
 build-all: build-datalake
 destroy-all: destroy-datalake
 
-dbt-run-all: dbt-init plant-seeds dbt-run dbt-docs
+dbt-run-all: plant-seeds dbt-run dbt-docs
 
 # -------------------------------------------------------------------------------------------------
 # The Data Lake is the base layer S3 bucket and we create as a separate layer that has no
@@ -37,31 +37,68 @@ destroy-datalake: clean-s3-bucket
 install-terraform:
 	brew install hashicorp/tap/terraform
 
+# -------------------------------------------------------------------------------------------------
+# dbt configuration
+#
+#https://docs.getdbt.com/quickstarts/manual-install?step=3
+#https://docs.elementary-data.com/quickstart#install-dbt-package
+#https://docs.elementary-data.com/quickstart/generate-report-ui
+#https://github.com/dbt-athena/dbt-athena
+#https://docs.getdbt.com/docs/core/connect-data-platform/athena-setup
+#~/.dbt/profiles.yml
+#    project:
+#      outputs:
+#        dev:
+#          database: datalake_catalog
+#          region_name: eu-west-3
+#          s3_data_dir: s3://atommych-datalake-dev/data/
+#          s3_staging_dir: s3://atommych-datalake-dev/stg/
+#          schema: datalake_dev
+#          threads: 1
+#          type: athena
+#      target: dev
+
 setup-env:
 	$(source setenv.sh)
+
 
 install-dbt:
 	pip install -r requirements.txt
 
+dbt-deps:
+	cd src/dbt/project/ && dbt deps
+
+dbt-elementary:
+	cd src/dbt/project/ && dbt run --select elementary
+
+dbt-test:
+	cd src/dbt/project/ && dbt test
+
+dbt-report:
+	cd src/dbt/project/ && edr report
+
+dbt-init-current:
+	cd src/dbt/project/ && dbt init --skip-profile-setup project
+
 dbt-init-new:
-	cd src/dbt/ && dbt init etl_dw
+	cd src/dbt/project/ && dbt init project
 
-dbt-init:
-	cd src/dbt/ && dbt init --skip-profile-setup etl_dw
+dbt-init: dbt-init-current dbt-deps dbt-elementary dbt-test dbt-report
 
+dbt-config: install-dbt dbt-init-new dbt-deps dbt-elementary dbt-test dbt-report
 # -------------------------------------------------------------------------------------------------
 # Run data pipeline
 #
 
 #Upload data to S3
 plant-seeds:
-	aws s3 sync src/dbt/etl_dw/seeds s3://${PREFIX}-datalake-${ENVIRONMENT}/stage/subscription/inputs/ --exclude="*" --include="*.csv"
+	aws s3 sync src/dbt/project/seeds s3://${PREFIX}-datalake-${ENVIRONMENT}/dbt/stg/inputs/ --exclude="*" --include="*.csv"
 
 dbt-run:
-	cd src/dbt/etl_dw/ && dbt run
+	cd src/dbt/project/ && dbt run
 
 dbt-docs:
-	cd src/dbt/etl_dw/ && dbt docs generate
+	cd src/dbt/project/ && dbt docs generate
 
 
 
