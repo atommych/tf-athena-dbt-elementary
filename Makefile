@@ -5,7 +5,7 @@ build-datalake: setup-env init-datalake apply-datalake
 build-all: build-datalake
 destroy-all: destroy-datalake
 
-dbt-run-all: plant-seeds dbt-run dbt-docs
+dbt-run-all: plant-seeds dbt-run dbt-docs dbt-test dbt-report
 
 # -------------------------------------------------------------------------------------------------
 # The Data Lake is the base layer S3 bucket and we create as a separate layer that has no
@@ -45,18 +45,6 @@ install-terraform:
 #https://docs.elementary-data.com/quickstart/generate-report-ui
 #https://github.com/dbt-athena/dbt-athena
 #https://docs.getdbt.com/docs/core/connect-data-platform/athena-setup
-#~/.dbt/profiles.yml
-#    project:
-#      outputs:
-#        dev:
-#          database: datalake_catalog
-#          region_name: eu-west-3
-#          s3_data_dir: s3://atommych-datalake-dev/data/
-#          s3_staging_dir: s3://atommych-datalake-dev/stg/
-#          schema: datalake_dev
-#          threads: 1
-#          type: athena
-#      target: dev
 
 setup-env:
 	$(source setenv.sh)
@@ -71,21 +59,15 @@ dbt-deps:
 dbt-elementary:
 	cd src/dbt/project/ && dbt run --select elementary
 
-dbt-test:
-	cd src/dbt/project/ && dbt test
-
-dbt-report:
-	cd src/dbt/project/ && edr report
-
 dbt-init-current:
 	cd src/dbt/project/ && dbt init --skip-profile-setup project
 
 dbt-init-new:
 	cd src/dbt/project/ && dbt init project
 
-dbt-init: dbt-init-current dbt-deps dbt-elementary dbt-test dbt-report
+dbt-init: dbt-init-current dbt-deps dbt-elementary
 
-dbt-config: install-dbt dbt-init-new dbt-deps dbt-elementary dbt-test dbt-report
+dbt-config: install-dbt dbt-init-new dbt-deps dbt-elementary
 # -------------------------------------------------------------------------------------------------
 # Run data pipeline
 #
@@ -100,6 +82,8 @@ dbt-run:
 dbt-docs:
 	cd src/dbt/project/ && dbt docs generate
 
+dbt-test:
+	cd src/dbt/project/ && dbt test
 
-
-
+dbt-report:
+	cd src/dbt/project/ && edr report
