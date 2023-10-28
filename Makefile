@@ -5,7 +5,7 @@ build-datalake: setup-env init-datalake apply-datalake
 build-all: build-datalake
 destroy-all: destroy-datalake
 
-dbt-run-all: plant-seeds dbt-run dbt-docs dbt-test dbt-report
+dbt-run-all: plant-seeds dbt-run dbt-docs dbt-test edr-report
 
 # -------------------------------------------------------------------------------------------------
 # The Data Lake is the base layer S3 bucket and we create as a separate layer that has no
@@ -56,7 +56,7 @@ install-dbt:
 dbt-deps:
 	cd src/dbt/project/ && dbt deps
 
-dbt-elementary:
+run-elementary:
 	cd src/dbt/project/ && dbt run --select elementary
 
 dbt-init-current:
@@ -65,16 +65,23 @@ dbt-init-current:
 dbt-init-new:
 	cd src/dbt/project/ && dbt init project
 
-dbt-init: dbt-init-current dbt-deps dbt-elementary
+dbt-init: dbt-init-current dbt-deps run-elementary
 
-dbt-config: install-dbt dbt-init-new dbt-deps dbt-elementary
+dbt-config: install-dbt dbt-init-new dbt-deps run-elementary
+
+edr-report:
+	cd src/dbt/project/ && edr report
+
+edr-monitor:
+	cd src/dbt/project/ && edr monitor
+
 # -------------------------------------------------------------------------------------------------
 # Run data pipeline
 #
 
 #Upload data to S3
 plant-seeds:
-	aws s3 sync src/dbt/project/seeds s3://${PREFIX}-datalake-${ENVIRONMENT}/dbt/stg/inputs/ --exclude="*" --include="*.csv"
+	aws s3 sync src/dbt/project/seeds s3://${PREFIX}-datalake-${ENVIRONMENT}/dbt/stage/inputs/ --exclude="*" --include="*.csv"
 
 dbt-run:
 	cd src/dbt/project/ && dbt run
@@ -84,6 +91,3 @@ dbt-docs:
 
 dbt-test:
 	cd src/dbt/project/ && dbt test
-
-dbt-report:
-	cd src/dbt/project/ && edr report

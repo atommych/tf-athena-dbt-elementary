@@ -41,3 +41,11 @@ models:
     +schema: "elementary"
     ## To disable elementary for dev, uncomment this:
     # enabled: "{{ target.name in ['prod','analytics'] }}"
+
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: [athena_utils, dbt_utils]
+  - macro_namespace: dbt_expectations
+    search_order: [athena_utils, dbt_expectations]
+  - macro_namespace: metrics
+    search_order: [athena_utils, metrics]

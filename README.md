@@ -55,7 +55,17 @@ AWS Account and Cli:
     #                 threads: 5
     #                 type: athena
     #             target: dev
-
+    #           elementary:
+    #             outputs:
+    #               dev:
+    #                 database: AwsDataCatalog
+    #                 region_name: eu-west-3
+    #                 s3_data_dir: s3://atommych-datalake-dev/dbt/elementary/
+    #                 s3_staging_dir: s3://atommych-datalake-dev/dbt/stage/
+    #                 schema: datalake_dev_elementary
+    #                 threads: 2
+    #                 type: athena
+    #             target: dev
 
 ### Run dbt project
 
