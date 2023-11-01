@@ -45,29 +45,29 @@ AWS Account and Cli:
 - https://docs.getdbt.com/docs/core/connect-data-platform/athena-setup
 
 
-    # Set your athena connection in:  ~/.dbt/profiles.yml
-    #           tf-athena-dbt-elementary:
-    #             outputs:
-    #               dev:
-    #                 database: AwsDataCatalog
-    #                 region_name: eu-west-3
-    #                 s3_data_dir: s3://atommych-datalake-dev/data/
-    #                 s3_staging_dir: s3://atommych-datalake-dev/stage/
-    #                 schema: datalake_dev
-    #                 threads: 5
-    #                 type: athena
-    #             target: dev
-    #           elementary:
-    #             outputs:
-    #               dev:
-    #                 database: AwsDataCatalog
-    #                 region_name: eu-west-3
-    #                 s3_data_dir: s3://atommych-datalake-dev/dbt/elementary/
-    #                 s3_staging_dir: s3://atommych-datalake-dev/dbt/stage/
-    #                 schema: datalake_dev_elementary
-    #                 threads: 2
-    #                 type: athena
-    #             target: dev
+      #Set your athena connection in:  ~/.dbt/profiles.yml
+      #        tf-athena-dbt-elementary:
+      #          outputs:
+      #            dev:
+      #              database: AwsDataCatalog
+      #              region_name: eu-west-3
+      #              s3_data_dir: s3://atommych-datalake-dev/data/
+      #              s3_staging_dir: s3://atommych-datalake-dev/stage/
+      #              schema: datalake_dev
+      #              threads: 5
+      #              type: athena
+      #          target: dev
+      #        elementary:
+      #          outputs:
+      #            dev:
+      #              database: AwsDataCatalog
+      #              region_name: eu-west-3
+      #              s3_data_dir: s3://atommych-datalake-dev/dbt/elementary/
+      #              s3_staging_dir: s3://atommych-datalake-dev/dbt/stage/
+      #              schema: datalake_dev_elementary
+      #              threads: 2
+      #              type: athena
+      #          target: dev
 
 ### Run dbt project
 
