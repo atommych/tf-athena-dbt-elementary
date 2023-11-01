@@ -13,6 +13,8 @@ dbt-run-all: plant-seeds dbt-run dbt-docs dbt-test edr-report
 #
 #	${var.prefix}-datalake-${var.environment}
 #
+# https://github.com/datamesh-architecture/terraform-aws-dataproduct-aws-athena
+#
 init-datalake:
 	terraform -chdir=src/terraform/layers/datalake init
 

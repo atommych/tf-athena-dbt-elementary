@@ -30,9 +30,11 @@ AWS Account and Cli:
 
      
 ### Build Infrastructure
-- **AWS S3 Bucket**
-- **AWS Athena** 
-- **AWS Glue**
+- https://github.com/datamesh-architecture/terraform-aws-dataproduct-aws-athena
+  - **AWS S3 Bucket**
+  - **AWS Athena** 
+  - **AWS Glue**
+  - **AWS Lambda**
 
    
     make build-datalake
