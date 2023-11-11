@@ -4,6 +4,8 @@
 #Application environment variables
 environment="dev"
 prefix="atommych"
+apikey=""
+secret=""
 
 #HardCodedAWSCredentials
 #region=
@@ -13,6 +15,8 @@ prefix="atommych"
 
 export PREFIX=$prefix
 export ENVIRONMENT=$environment
+export IDEALISTA_API_KEY=$apikey
+export IDEALISTA_SECRET=$secret
 
 cp environments/env.tfvars.template environments/$environment.tfvars
 sed -i 's/<environment>/"'$environment'"/g' environments/$environment.tfvars
