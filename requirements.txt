@@ -2,3 +2,5 @@ dbt-core==1.5
 boto3==1.26.123
 dbt-athena-community==1.5
 elementary-data[athena]==0.11.0
+pandas==2.1.2
+geopy==2.4.0

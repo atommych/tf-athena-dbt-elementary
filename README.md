@@ -11,14 +11,15 @@ AWS Account and Cli:
 - https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
 
 
-### Setup cli credentials
+### Setup AWS credentials
     #Set AWS Access Key ID and AWS Secret Access Key        
     aws configure
 
     #Check credentials 
     aws configure list
     vi ~/.aws/credentials
-
+  
+    #Othewise use #HardCodedAWSCredentials
 
 ### Config a new environment
     #Create new python env 
@@ -30,6 +31,7 @@ AWS Account and Cli:
 
      
 ### Build Infrastructure
+- https://www.datamesh-architecture.com/
 - https://github.com/datamesh-architecture/terraform-aws-dataproduct-aws-athena
   - **AWS S3 Bucket**
   - **AWS Athena** 
