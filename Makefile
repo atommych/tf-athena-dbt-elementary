@@ -49,8 +49,7 @@ install-terraform:
 #https://docs.getdbt.com/docs/core/connect-data-platform/athena-setup
 
 setup-env:
-	$(source setenv.sh)
-
+	$(source ./setenv.sh)
 
 install-dbt:
 	pip install -r requirements.txt
@@ -81,9 +80,9 @@ edr-monitor:
 # Run data pipeline
 #
 
-#Upload data to S3
-plant-seeds:
-	aws s3 sync src/dbt/project/seeds s3://${PREFIX}-datalake-${ENVIRONMENT}/dbt/stage/inputs/ --exclude="*" --include="*.csv"
+# CITY=braga make call-api
+call-api:
+	cd  src/lambda/idealista/ && python idealista_export.py --city ${CITY}
 
 dbt-run:
 	cd src/dbt/project/ && dbt run
@@ -93,3 +92,15 @@ dbt-docs:
 
 dbt-test:
 	cd src/dbt/project/ && dbt test
+
+dbt-seed:
+	cd src/dbt/project/ && dbt seed
+
+#Upload data to S3
+#make up-ext-table FILE=src/dbt/project/seeds/
+up-ext-table:
+	aws s3 sync ${FILE} s3://${PREFIX}-datalake-${ENVIRONMENT}/dbt/data/raw/ --exclude="*" --include="*.csv"
+
+#make down-exp-query PATH=idealista/porto/homes
+down-exp-table:
+	aws s3 sync s3://atommych-datalake-dev/export/${PATH} output/${PATH} --exclude="*" --include="*.csv"
