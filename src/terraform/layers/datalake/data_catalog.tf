@@ -1,5 +1,5 @@
 locals {
-  catalog_name = "${var.prefix}-catalog-${var.environment}"
+  catalog_name = "${var.prefix}_datalake_${var.environment}"
 }
 
 resource "aws_glue_catalog_database" "aws_glue_catalog_database" {

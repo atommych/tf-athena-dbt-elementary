@@ -48,28 +48,29 @@ AWS Account and Cli:
 
 
       #Set your athena connection in:  ~/.dbt/profiles.yml
-      #        tf-athena-dbt-elementary:
-      #          outputs:
-      #            dev:
-      #              database: AwsDataCatalog
-      #              region_name: eu-west-3
-      #              s3_data_dir: s3://atommych-datalake-dev/data/
-      #              s3_staging_dir: s3://atommych-datalake-dev/stage/
-      #              schema: datalake_dev
-      #              threads: 5
-      #              type: athena
-      #          target: dev
-      #        elementary:
-      #          outputs:
-      #            dev:
-      #              database: AwsDataCatalog
-      #              region_name: eu-west-3
-      #              s3_data_dir: s3://atommych-datalake-dev/dbt/elementary/
-      #              s3_staging_dir: s3://atommych-datalake-dev/dbt/stage/
-      #              schema: datalake_dev_elementary
-      #              threads: 2
-      #              type: athena
-      #          target: dev
+      #    tf-athena-dbt-elementary:
+      #      outputs:
+      #        dev:
+      #          database: AwsDataCatalog
+      #          region_name: us-east-1
+      #          s3_data_dir: s3://atommych-datalake-dev/dbt/data/
+      #          s3_staging_dir: s3://atommych-datalake-dev/dbt/stage/
+      #          schema: atommych_datalake_dev
+      #          threads: 5
+      #          type: athena
+      #          work_group: atommych-athena-workgroup-dev
+      #      target: dev
+      #    elementary:
+      #      outputs:
+      #        dev:
+      #          database: AwsDataCatalog
+      #          region_name: us-east-1
+      #          s3_data_dir: s3://atommych-datalake-dev/dbt/elementary/
+      #          s3_staging_dir: s3://atommych-datalake-dev/dbt/stage/
+      #          schema: atommych_datalake_dev_elementary
+      #          threads: 5
+      #          type: athena
+      #      target: dev
 
 ### Run dbt project
 
