@@ -1,0 +1,51 @@
+version: 2
+
+seeds:
+  - name: porto_houses
+    config:
+      enabled: true
+      quote_columns: true
+      delimiter: ","
+      column_types:
+        row_num: string
+        level_0: string
+        index: string
+        propertyCode: string
+        thumbnail: string
+        externalReference: string
+        numPhotos: string
+        price: string
+        propertyType: string
+        operation: string
+        size: string
+        rooms: string
+        bathrooms: string
+        address: string
+        province: string
+        municipality: string
+        country: string
+        latitude: string
+        longitude: string
+        showAddress: string
+        url: string
+        distance: string
+        description: string
+        hasVideo: string
+        status: string
+        newDevelopment: string
+        priceByArea: string
+        detailedType: string
+        suggestedTexts: string
+        hasPlan: string
+        has3DTour: string
+        has360: string
+        hasStaging: string
+        topNewDevelopment: string
+        superTopHighlight: string
+        floor: string
+        hasLift: string
+        parkingSpace: string
+        district: string
+        labels: string
+        highlight: string
+        neighborhood: string
