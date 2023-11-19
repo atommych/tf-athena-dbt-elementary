@@ -8,9 +8,9 @@ sources:
         external:
           location: "s3://atommych-datalake-dev/input/idealista/pt/braga/sale/homes/"
           row_format: "delimited fields terminated by ','"
-          table_properties: "('skip.header.line.count'='1', 'compressionType'='gzip')"
+          table_properties: "('skip.header.line.count'='1')"
           partitions: # optional
-            - name: loaded_date
+            - name: loaded_at
               data_type: date
               path_macro: date_path_dash
               vals:
