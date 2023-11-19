@@ -5,6 +5,7 @@
 name: 'tf_athena_dbt_elementary'
 version: '1.0.0'
 config-version: 2
+query-comment: null
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'tf-athena-dbt-elementary'
@@ -23,7 +24,6 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
-
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
@@ -31,16 +31,28 @@ clean-targets:         # directories to be removed by `dbt clean`
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
 models:
-  datalake:
+  tf_athena_dbt_elementary:
     # Config indicated by + and applies to all files under models/example/
     example:
       +materialized: view
+      s3_location: s3://atommych-datalake-dev/dbt/data/example
+
+    clean:
+      +materialized: table
+      schema: clean
+      s3_location: s3://atommych-datalake-dev/dbt/data/clean
+
+    mart:
+      +materialized: table
+      schema: mart
+      s3_location: s3://atommych-datalake-dev/dbt/data/mart
 
   elementary:
     ## elementary models will be created in the schema '<your_schema>_elementary'
     +schema: "elementary"
     ## To disable elementary for dev, uncomment this:
     # enabled: "{{ target.name in ['prod','analytics'] }}"
+
 
 dispatch:
   - macro_namespace: dbt_utils

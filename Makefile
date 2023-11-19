@@ -84,6 +84,7 @@ edr-monitor:
 call-api:
 	cd  src/lambda/idealista/ && python idealista_export.py --city ${CITY}
 
+#dbt run -s +my_second_dbt_model
 dbt-run:
 	cd src/dbt/project/ && dbt run
 
@@ -104,3 +105,7 @@ up-ext-table:
 #make down-exp-query PATH=idealista/porto/homes
 down-exp-table:
 	aws s3 sync s3://atommych-datalake-dev/export/${PATH} output/${PATH} --exclude="*" --include="*.csv"
+
+#make dbt-load-raw TABLE=raw.idealista_braga_homes
+dbt-load-raw:
+	cd src/dbt/project/ && dbt run-operation stage_external_sources --args "select: ${TABLE}"
