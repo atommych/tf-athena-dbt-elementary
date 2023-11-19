@@ -84,6 +84,7 @@ edr-monitor:
 call-api:
 	cd  src/lambda/idealista/ && python idealista_export.py --city ${CITY}
 
+#dbt run -s +my_second_dbt_model
 dbt-run:
 	cd src/dbt/project/ && dbt run
 
