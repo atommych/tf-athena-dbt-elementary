@@ -1,0 +1,107 @@
+version: 2
+
+sources:
+
+  - name: raw
+    schema: datalake_raw
+    loader: S3
+    tables:
+      - name: idealista_aveiro_homes
+        quoting:
+          database: false
+          schema: false
+          identifier: false
+        external:
+          location: "s3://atommych-datalake-dev/input/idealista/pt/aveiro/sale/homes/"
+          row_format: "delimited fields terminated by ','"
+          table_properties: "('skip.header.line.count'='1')"
+          partitions: # optional
+            - name: loaded_at
+              data_type: date
+              path_macro: date_path_dash
+              vals:
+                macro: dbt.dates_in_range
+                args:
+                  start_date_str: '2023-11-13'
+                  end_date_str: '{{modules.datetime.date.today().strftime("%Y-%m-%d")}}'
+                  in_fmt: "%Y-%m-%d"
+                  out_fmt: "%Y-%m-%d"
+        columns:
+          - name: propertyCode
+            data_type: int
+          - name: thumbnail
+            data_type: string
+          - name: externalReference
+            data_type: string
+          - name: numPhotos
+            data_type: int
+          - name: price
+            data_type: float
+          - name: propertyType
+            data_type: string
+          - name: operation
+            data_type: string
+          - name: size
+            data_type: float
+          - name: rooms
+            data_type: int
+          - name: bathrooms
+            data_type: int
+          - name: address
+            data_type: string
+          - name: province
+            data_type: string
+          - name: municipality
+            data_type: string
+          - name: district
+            data_type: string
+          - name: country
+            data_type: string
+          - name: latitude
+            data_type: float
+          - name: longitude
+            data_type: float
+          - name: showAddress
+            data_type: boolean
+          - name: url
+            data_type: string
+          - name: distance
+            data_type: int
+          - name: description
+            data_type: string
+          - name: hasVideo
+            data_type: boolean
+          - name: status
+            data_type: string
+          - name: newDevelopment
+            data_type: boolean
+          - name: priceByArea
+            data_type: float
+          - name: detailedType
+            data_type: string
+          - name: suggestedTexts
+            data_type: string
+          - name: hasPlan
+            data_type: boolean
+          - name: has3DTour
+            data_type: boolean
+          - name: has360
+            data_type: boolean
+          - name: hasStaging
+            data_type: boolean
+          - name: topNewDevelopment
+            data_type: boolean
+          - name: superTopHighlight
+            data_type: boolean
+          - name: hasLift
+            data_type: string
+          - name: parkingSpace
+            data_type: string
+          - name: floor
+            data_type: string
+          - name: neighborhood
+            data_type: string
+          - name: labels
+            data_type: string
+          - name: highlight
+            data_type: string

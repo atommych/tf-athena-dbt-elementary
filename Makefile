@@ -100,12 +100,12 @@ dbt-seed:
 #Upload data to S3
 #make up-ext-table FILE=src/dbt/project/seeds/
 up-ext-table:
-	aws s3 sync ${FILE} s3://${PREFIX}-datalake-${ENVIRONMENT}/dbt/data/raw/ --exclude="*" --include="*.csv"
+	aws s3 sync ${FILE} "s3://${PREFIX}-datalake-${ENVIRONMENT}/dbt/data/raw/$(shell date +%Y-%m-%d)/" --exclude="*" --include="*.csv"
 
 #make down-exp-query PATH=idealista/porto/homes
 down-exp-table:
 	aws s3 sync s3://atommych-datalake-dev/export/${PATH} output/${PATH} --exclude="*" --include="*.csv"
 
-#make dbt-load-raw TABLE=raw.idealista_braga_homes
+#make dbt-load-raw TABLE=raw.idealista_aveiro_homes / porto_houses
 dbt-load-raw:
 	cd src/dbt/project/ && dbt run-operation stage_external_sources --args "select: ${TABLE}"

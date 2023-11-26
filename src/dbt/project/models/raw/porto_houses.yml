@@ -1,0 +1,112 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: datalake_raw
+    loader: S3
+    tables:
+      - name: porto_houses
+        quoting:
+          database: false
+          schema: false
+          identifier: false
+        external:
+          location: "s3://atommych-datalake-dev/dbt/data/raw/"
+          row_format: "serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde' with serdeproperties ('escapeChar'='\\\\', 'quoteChar'='\\\"', 'separatorChar'=',')"
+          table_properties: "('skip.header.line.count'='1')"
+          partitions: # optional
+            - name: loaded_at
+              data_type: date
+              path_macro: date_path_dash
+              vals:
+                macro: dbt.dates_in_range
+                args:
+                  start_date_str: '2023-11-13'
+                  end_date_str: '{{modules.datetime.date.today().strftime("%Y-%m-%d")}}'
+                  in_fmt: "%Y-%m-%d"
+                  out_fmt: "%Y-%m-%d"
+        columns:
+          - name: row_num
+            data_type: string
+          - name: level_0
+            data_type: string
+          - name: index
+            data_type: string
+          - name: propertyCode
+            data_type: string
+          - name: thumbnail
+            data_type: string
+          - name: externalReference
+            data_type: string
+          - name: numPhotos
+            data_type: string
+          - name: price
+            data_type: string
+          - name: propertyType
+            data_type: string
+          - name: operation
+            data_type: string
+          - name: size
+            data_type: string
+          - name: rooms
+            data_type: string
+          - name: bathrooms
+            data_type: string
+          - name: address
+            data_type: string
+          - name: province
+            data_type: string
+          - name: municipality
+            data_type: string
+          - name: country
+            data_type: string
+          - name: latitude
+            data_type: string
+          - name: longitude
+            data_type: string
+          - name: showAddress
+            data_type: string
+          - name: url
+            data_type: string
+          - name: distance
+            data_type: string
+          - name: description
+            data_type: string
+          - name: hasVideo
+            data_type: string
+          - name: status
+            data_type: string
+          - name: newDevelopment
+            data_type: string
+          - name: priceByArea
+            data_type: string
+          - name: detailedType
+            data_type: string
+          - name: suggestedTexts
+            data_type: string
+          - name: hasPlan
+            data_type: string
+          - name: has3DTour
+            data_type: string
+          - name: has360
+            data_type: string
+          - name: hasStaging
+            data_type: string
+          - name: topNewDevelopment
+            data_type: string
+          - name: superTopHighlight
+            data_type: string
+          - name: floor
+            data_type: string
+          - name: hasLift
+            data_type: string
+          - name: parkingSpace
+            data_type: string
+          - name: district
+            data_type: string
+          - name: labels
+            data_type: string
+          - name: highlight
+            data_type: string
+          - name: neighborhood
+            data_type: string
