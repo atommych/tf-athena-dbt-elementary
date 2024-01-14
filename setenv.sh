@@ -23,12 +23,17 @@ export IDEALISTA_SECRET=$secret
 cp environments/env.tfvars.template environments/$environment.tfvars
 sed -i '' 's/<environment>/"'$environment'"/g' environments/$environment.tfvars
 sed -i '' 's/<prefix>/"'$prefix'"/g' environments/$environment.tfvars
+sed -i '' 's/<region>/"'$region'"/g' environments/$environment.tfvars
 
 # Add athena connection in:  ~/.dbt/profiles.yml
 cp src/dbt/setup/profiles-template.yml src/dbt/setup/$environment-profiles-template.yml
 sed -i '' 's/<environment>/'$environment'/g' src/dbt/setup/$environment-profiles-template.yml
 sed -i '' 's/<prefix>/'$prefix'/g' src/dbt/setup/$environment-profiles-template.yml
+sed -i '' 's/<region>/'$region'/g' src/dbt/setup/$environment-profiles-template.yml
 cat src/dbt/setup/$environment-profiles-template.yml >> ~/.dbt/profiles.yml
+
+python3 -m venv py_atommych_idealista
+source py_atommych_idealista/bin/activate
 
 #HardCodedAWSCredentials
 #sed -i 's/<region>/"'$region'"/g' environments/$environment.tfvars

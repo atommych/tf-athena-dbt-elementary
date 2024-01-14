@@ -1,11 +1,12 @@
 # Each environment needs to have a specific location because Terraform will store state
 
 build-datalake: setup-env init-datalake apply-datalake
+build-dbt-docs: init-host-dbt-docs apply-host-dbt-docs
 
-build-all: build-datalake
-destroy-all: destroy-datalake
+build-all: build-datalake build-dbt-docs
+destroy-all: destroy-dbt-docs destroy-datalake
 
-dbt-run-all: dbt-seed dbt-run dbt-docs dbt-test
+dbt-run-all: dbt-seed dbt-run dbt-docs dbt-test deploy-dbt-docs get-dbt-docs-url
 
 # -------------------------------------------------------------------------------------------------
 # The Data Lake is the base layer S3 bucket and we create as a separate layer that has no
@@ -31,6 +32,23 @@ clean-s3-bucket:
 
 destroy-datalake: clean-s3-bucket
 	cd src/terraform/layers/datalake; terraform destroy \
+ 	-var-file="../../../../environments/${ENVIRONMENT}.tfvars" -auto-approve
+
+init-host-dbt-docs:
+	terraform -chdir=src/terraform/layers/host_dbt_docs init
+
+apply-host-dbt-docs:
+	cd src/terraform/layers/host_dbt_docs; terraform apply  \
+ 	-var-file="../../../../environments/${ENVIRONMENT}.tfvars" -auto-approve
+
+clean-dbt-docs:
+	aws s3 rm s3://${PREFIX}-dbt-docs --recursive
+
+clean-tf-state:
+	aws s3 rm s3://atommych-terraform-state --recursive
+
+destroy-dbt-docs: clean-tf-state clean-dbt-docs
+	cd src/terraform/layers/host_dbt_docs; terraform destroy \
  	-var-file="../../../../environments/${ENVIRONMENT}.tfvars" -auto-approve
 
 # -------------------------------------------------------------------------------------------------
@@ -107,3 +125,10 @@ down-exp-table:
 #make dbt-load-raw TABLE=raw.idealista_braga_homes
 dbt-load-raw:
 	cd src/dbt/project/ && dbt run-operation stage_external_sources --args "select: ${TABLE}"
+
+#Upload dbt-docs static website to s3 bucket
+deploy-dbt-docs:
+	aws s3 sync src/dbt/project/target s3://${PREFIX}-dbt-docs --delete
+
+get-dbt-docs-url:
+	cd src/terraform/layers/host_dbt_docs; terraform output website_url

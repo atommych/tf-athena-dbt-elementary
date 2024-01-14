@@ -12,23 +12,25 @@ AWS Account and Cli:
 
 
 ### Setup AWS credentials
-    #Set AWS Access Key ID and AWS Secret Access Key        
+    # Set AWS Access Key ID and AWS Secret Access Key        
     aws configure
 
-    #Check credentials 
+    # Check credentials 
     aws configure list
     vi ~/.aws/credentials
   
-    #Othewise use #HardCodedAWSCredentials
+    # Othewise use #HardCodedAWSCredentials
 
 ### Config a new environment
-    #Create new python env 
+    # Create new python env 
     python3 -m venv dbt-athena 
     source dbt-athena/bin/activate
  
-    #Edit file with your credentials and environment variables
+    # Edit file with your credentials and environment variables
     vi setenv.sh
-
+    
+    # Setup environment variables and config files (terraform, dbt) 
+    source ./setenv.sh
      
 ### Build Infrastructure
 - https://www.datamesh-architecture.com/
@@ -38,25 +40,27 @@ AWS Account and Cli:
   - **AWS Glue**
   - **AWS Lambda**
 
-   
-    make build-datalake
+
+    make build-all
 
 ### Config dbt environment
 - https://docs.getdbt.com/docs/core/connect-data-platform/athena-setup
 
 
-    #Config dbt environment: 
+    # Config dbt environment: 
     make dbt-config
 
-    #Upload sample to s3, run dbt and generate documentation
-    make dbt-run-all 
-
-    #Run idealista API export
+    # Run idealista API export
     CITY=lisboa make call-api
     
-    #Run raw table ingestion
+    # Run raw table ingestion
     make dbt-load-raw TABLE=raw.idealista_lisboa_sale_homes
 
+    # Upload sample to s3, run dbt and generate documentation
+    make dbt-run-all 
+
+
 ### Destroy Infrastructure
-    #Destroy Infrastructure: AWS S3, AWS Athena, AWS Glue
+    # Destroy Infrastructure: AWS S3, AWS Athena, AWS Glue
     make destroy-all
+
