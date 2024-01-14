@@ -5,7 +5,7 @@ build-datalake: setup-env init-datalake apply-datalake
 build-all: build-datalake
 destroy-all: destroy-datalake
 
-dbt-run-all: plant-seeds dbt-run dbt-docs dbt-test edr-report
+dbt-run-all: dbt-seed dbt-run dbt-docs dbt-test
 
 # -------------------------------------------------------------------------------------------------
 # The Data Lake is the base layer S3 bucket and we create as a separate layer that has no
@@ -66,9 +66,7 @@ dbt-init-current:
 dbt-init-new:
 	cd src/dbt/project/ && dbt init project
 
-dbt-init: dbt-init-current dbt-deps run-elementary
-
-dbt-config: install-dbt dbt-init-new dbt-deps run-elementary
+dbt-config: install-dbt dbt-init-current dbt-deps
 
 edr-report:
 	cd src/dbt/project/ && edr report
@@ -100,7 +98,7 @@ dbt-seed:
 #Upload data to S3
 #make up-ext-table FILE=src/dbt/project/seeds/
 up-ext-table:
-	aws s3 sync ${FILE} s3://${PREFIX}-datalake-${ENVIRONMENT}/dbt/data/raw/ --exclude="*" --include="*.csv"
+	aws s3 sync ${FILE} "s3://${PREFIX}-datalake-${ENVIRONMENT}/dbt/data/raw/$(shell date +%Y-%m-%d)/" --exclude="*" --include="*.csv"
 
 #make down-exp-query PATH=idealista/porto/homes
 down-exp-table:

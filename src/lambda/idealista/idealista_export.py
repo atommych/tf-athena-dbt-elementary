@@ -9,6 +9,7 @@ import sys, traceback, os
 from io import StringIO
 from datetime import datetime
 from geopy.geocoders import Nominatim
+import shutil
 
 S3_PATH = "input/idealista/{country}/{city}/{operation}/{property_type}/{date}/{file_name}"
 FILE_NAME = '{country}_{city}_{operation}_{property_type}_{date}.csv'
@@ -103,6 +104,28 @@ def upload_to_s3(df: pd.DataFrame, s3_bucket:str, s3_path: str):
     print(f'Successfully uploaded {df.shape[0]} rows to s3://{s3_bucket}/{s3_path}')
 
 
+def create_raw_table(prefix, environment, city, operation, property_type):
+    file_path = '../../dbt/project/models/raw'
+    raw_file = f'idealista_{city}_{operation}_{property_type}.yml'
+
+    if ( os.path.exists(f'{file_path}/{raw_file}') ):
+        print("Raw table already exists.")
+    else:
+        print("Creating new raw table: " + f'{file_path}/{raw_file}')
+        shutil.copy2('./raw_city_template.yml', f'{file_path}/{raw_file}')
+
+        with open(f'{file_path}/{raw_file}', 'r') as file:
+            filedata = file.read()
+
+        filedata = filedata.replace('<prefix>', prefix)
+        filedata = filedata.replace('<environment>', environment)
+        filedata = filedata.replace('<city>', city)
+        filedata = filedata.replace('<operation>', operation)
+        filedata = filedata.replace('<property_type>', property_type)
+
+        with open(f'{file_path}/{raw_file}', 'w') as file:
+            file.write(filedata)
+
 if __name__ == '__main__':
     # Providing command-line arguments
     parser = argparse.ArgumentParser(description='')
@@ -179,7 +202,6 @@ if __name__ == '__main__':
                                 num_page=i)
 
                 result = search_api(token, url)
-                #result = {'url':[url]}
 
                 df = pd.DataFrame.from_dict(result)
                 df_concat = pd.concat([df_concat, df])
@@ -191,6 +213,8 @@ if __name__ == '__main__':
 
             print('Output data: ' + s3_path + '\n')
             upload_to_s3(df_concat, s3_bucket, s3_path)
+
+            create_raw_table(os.getenv("PREFIX"), os.getenv("ENVIRONMENT"), city, operation, property_type)
 
     except:
         traceback.print_exc()

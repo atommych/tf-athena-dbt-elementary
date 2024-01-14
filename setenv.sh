@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Include private data here
 #source ~/.setenv.sh
 
@@ -18,9 +19,16 @@ export ENVIRONMENT=$environment
 export IDEALISTA_API_KEY=$apikey
 export IDEALISTA_SECRET=$secret
 
+# Set terraform variables
 cp environments/env.tfvars.template environments/$environment.tfvars
-sed -i 's/<environment>/"'$environment'"/g' environments/$environment.tfvars
-sed -i 's/<prefix>/"'$prefix'"/g' environments/$environment.tfvars
+sed -i '' 's/<environment>/"'$environment'"/g' environments/$environment.tfvars
+sed -i '' 's/<prefix>/"'$prefix'"/g' environments/$environment.tfvars
+
+# Add athena connection in:  ~/.dbt/profiles.yml
+cp src/dbt/setup/profiles-template.yml src/dbt/setup/$environment-profiles-template.yml
+sed -i '' 's/<environment>/'$environment'/g' src/dbt/setup/$environment-profiles-template.yml
+sed -i '' 's/<prefix>/'$prefix'/g' src/dbt/setup/$environment-profiles-template.yml
+cat src/dbt/setup/$environment-profiles-template.yml >> ~/.dbt/profiles.yml
 
 #HardCodedAWSCredentials
 #sed -i 's/<region>/"'$region'"/g' environments/$environment.tfvars

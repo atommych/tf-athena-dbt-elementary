@@ -41,48 +41,21 @@ AWS Account and Cli:
    
     make build-datalake
 
-
-## Config dbt environment 
-
+### Config dbt environment
 - https://docs.getdbt.com/docs/core/connect-data-platform/athena-setup
 
 
-      #Set your athena connection in:  ~/.dbt/profiles.yml
-      #    tf-athena-dbt-elementary:
-      #      outputs:
-      #        dev:
-      #          database: AwsDataCatalog
-      #          region_name: us-east-1
-      #          s3_data_dir: s3://atommych-datalake-dev/dbt/data/
-      #          s3_staging_dir: s3://atommych-datalake-dev/dbt/stage/
-      #          schema: atommych_datalake_dev
-      #          threads: 5
-      #          type: athena
-      #          work_group: atommych-athena-workgroup-dev
-      #      target: dev
-      #    elementary:
-      #      outputs:
-      #        dev:
-      #          database: AwsDataCatalog
-      #          region_name: us-east-1
-      #          s3_data_dir: s3://atommych-datalake-dev/dbt/elementary/
-      #          s3_staging_dir: s3://atommych-datalake-dev/dbt/stage/
-      #          schema: atommych_datalake_dev_elementary
-      #          threads: 5
-      #          type: athena
-      #      target: dev
-
-### Run dbt project
-
-    #In case of new environment: 
+    #Config dbt environment: 
     make dbt-config
 
-    #In case of dbt already config  
-    make dbt-init
-
-    #Initialize dbt profile, upload samples to s3, run dbt workflows and generate documentation
+    #Upload sample to s3, run dbt and generate documentation
     make dbt-run-all 
 
+    #Run idealista API export
+    CITY=lisboa make call-api
+    
+    #Run raw table ingestion
+    make dbt-load-raw TABLE=raw.idealista_lisboa_sale_homes
 
 ### Destroy Infrastructure
     #Destroy Infrastructure: AWS S3, AWS Athena, AWS Glue

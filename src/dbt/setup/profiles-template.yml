@@ -1,0 +1,23 @@
+tf-athena-dbt-elementary:
+  outputs:
+    <environment>:
+      database: awsdatacatalog
+      region_name: us-east-1
+      s3_data_dir: s3://<prefix>-datalake-<environment>/dbt/data/
+      s3_staging_dir: s3://<prefix>-datalake-<environment>/dbt/stage/
+      schema: <prefix>_datalake_<environment>
+      threads: 5
+      type: athena
+      work_group: atommych-athena-workgroup-dev
+  target: <environment>
+elementary:
+  outputs:
+    <environment>:
+      database: awsdatacatalog
+      region_name: us-east-1
+      s3_data_dir: s3://<prefix>-datalake-<environment>/dbt/elementary/
+      s3_staging_dir: s3://<prefix>-datalake-<environment>/dbt/stage/
+      schema: <prefix>_datalake_<environment>_elementary
+      threads: 5
+      type: athena
+  target: <environment>

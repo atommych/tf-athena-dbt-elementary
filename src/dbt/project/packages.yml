@@ -1,7 +1,7 @@
 packages:
    ## branch athena-support from:
    #- git: "https://github.com/artem-garmash/dbt-data-reliability"
-   - local: ../../../../dbt-data-reliability
+   #- local: ../../../../dbt-data-reliability
 
    ## Docs: https://docs.elementary-data.com
    #- package: elementary-data/elementary
