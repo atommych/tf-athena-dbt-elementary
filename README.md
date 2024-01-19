@@ -5,10 +5,15 @@ Demo Code showing Terraform, AWS Athena, dbt and elementary.
 Terraform Account and Cli:
 - https://app.terraform.io/public/signup/account
 - https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
-
+ 
 AWS Account and Cli:
 - https://portal.aws.amazon.com/billing/signup
 - https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+
+    # Config dbt environment: 
+    make install-terraform
+    make install-awscli
 
 
 ### Setup AWS credentials
@@ -56,9 +61,11 @@ AWS Account and Cli:
     # Run raw table ingestion
     make dbt-load-raw TABLE=raw.idealista_lisboa_sale_homes
 
-    # Upload sample to s3, run dbt and generate documentation
+    # Run dbt models
     make dbt-run-all 
-
+    
+    # Deploy DBT and Elementary Docs
+    make deploy-all-docs
 
 ### Destroy Infrastructure
     # Destroy Infrastructure: AWS S3, AWS Athena, AWS Glue
