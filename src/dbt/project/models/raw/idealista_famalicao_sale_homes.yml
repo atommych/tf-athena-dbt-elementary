@@ -4,9 +4,9 @@ sources:
     schema: datalake_raw
     loader: S3
     tables:
-      - name: idealista_braga_homes
+      - name: idealista_famalicao_sale_homes
         external:
-          location: "s3://atommych-datalake-dev/input/idealista/pt/braga/sale/homes/"
+          location: "s3://atommych-datalake-dev/input/idealista/pt/famalicao/sale/homes/"
           row_format: "delimited fields terminated by ','"
           table_properties: "('skip.header.line.count'='1')"
           partitions: # optional

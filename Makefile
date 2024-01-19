@@ -126,6 +126,16 @@ edr-report:
 edr-monitor:
 	cd src/dbt/project/ && edr monitor
 
+install-streamlit:
+	cd ../ && git clone https://github.com/atommych/st-idealista.git
+
+# https://atommych-idealista-streamlit.onrender.com/
+# Run streamlit locally
+# localhost:8501
+run-streamlit:
+	cd ../st-idealista/ && streamlit run main.py
+
+
 # -------------------------------------------------------------------------------------------------
 # AWS Utils
 
