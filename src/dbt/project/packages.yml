@@ -4,9 +4,9 @@ packages:
    #- local: ../../../../dbt-data-reliability
 
    ## Docs: https://docs.elementary-data.com
-   #- package: elementary-data/elementary
-   #  version: 0.11.0
-   #
+   - package: elementary-data/elementary
+     version: 0.13.2
+
    - git: "https://github.com/dbt-athena/athena-utils"
      revision: 0.3.0
 

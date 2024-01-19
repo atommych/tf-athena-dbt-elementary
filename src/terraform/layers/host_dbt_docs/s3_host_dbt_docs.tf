@@ -53,12 +53,12 @@ resource "aws_s3_bucket_acl" "dbt-docs-static-website" {
 }
 
 # s3 static website url
-output "website_url" {
+output "dbt_docs_website_url" {
   value = "http://${aws_s3_bucket.dbt-docs-static-website.bucket}.s3-website.${var.region}.amazonaws.com"
 }
 
 # S3 bucket policy
-resource "aws_s3_bucket_policy" "bucket-policy" {
+resource "aws_s3_bucket_policy" "dbt-docs-bucket-policy" {
   bucket = aws_s3_bucket.dbt-docs-static-website.id
 
   policy = <<POLICY
